@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var imageName = ""
     @State private var lastMessageNumber = -1 // lastMessageNumber will never be -1
     @State private var lastImageNumber = -1
+    let numberOfImages = 10 // images labeled image0 - image9
     
     var body: some View {
         
@@ -42,13 +43,6 @@ struct ContentView: View {
                                 "Fabulous? That's You!",
                                 "You Make Me Smile"]
                 
-                // generate a random messageNumber to use as an index
-                // if messageNumber == lastMessageNumber {
-                //      keep generating a new random messageNumber
-                //      until you get a messageNumber != lastMessageNumber
-                // set messageString to message[messageNumber]
-                // update the lastMessageNumber with messageNumber
-                
                 var messageNumber: Int
                 repeat {
                     messageNumber = Int.random(in: 0...messages.count-1)
@@ -56,10 +50,10 @@ struct ContentView: View {
                 message = messages[messageNumber]
                 lastMessageNumber = messageNumber
                 
-                var imageNumber = Int.random(in: 0...9)
-                while imageNumber == lastImageNumber {
-                    imageNumber = Int.random(in: 0...9)
-                }
+                var imageNumber: Int
+                repeat {
+                    imageNumber = Int.random(in: 0...(numberOfImages-1))
+                } while imageNumber == lastImageNumber
                 imageName = "image\(imageNumber)"
                 lastImageNumber = imageNumber
             }
