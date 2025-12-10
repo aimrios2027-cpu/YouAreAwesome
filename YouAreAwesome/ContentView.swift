@@ -13,8 +13,10 @@ struct ContentView: View {
     @State private var imageName = ""
     @State private var lastMessageNumber = -1 // lastMessageNumber will never be -1
     @State private var lastImageNumber = -1
+    @State private var lastSoundNumber = -1
     @State private var audioPlayer: AVAudioPlayer!
     let numberOfImages = 10 // images labeled image0 - image9
+    let numberOfSounds = 6 //sounds labeled sound0 - sound 5
     
     var body: some View {
         
@@ -27,6 +29,8 @@ struct ContentView: View {
                 .minimumScaleFactor(0.5)
                 .frame(height: 100)
                 .animation(.easeInOut(duration: 0.15), value: message)
+            
+            Spacer()
             
             Image(imageName)
                 .resizable()
@@ -59,11 +63,13 @@ struct ContentView: View {
                 imageName = "image\(imageNumber)"
                 lastImageNumber = imageNumber
                 
-                let soundName = "sound0"
                 var soundNumber: Int
                 repeat {
-                    soundNumber = Int.random(in:0...5)
-                }
+                    soundNumber = Int.random(in: 0...numberOfSounds-1)
+                } while soundNumber == lastSoundNumber
+                lastSoundNumber = soundNumber
+                let soundName = "sound\(soundNumber)"
+                
                 guard let soundFile = NSDataAsset(name: soundName) else {
                     print("😡 Could not read file named \(soundName)")
                     return
